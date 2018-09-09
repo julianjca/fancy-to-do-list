@@ -173,11 +173,12 @@ module.exports = {
 
   findUser: (req, res) => {
     jwt.verify(req.body.token,process.env.JWT_SECRET,(err,decoded)=>{
-      User.findOne({
-            email: decoded.email
+      if(!err){
+        User.findOne({
+          email: decoded.email
         })
         .populate('todolist').
-        exec(function (err, data) {
+        exec(function (error, data) {
           if(!err){
             res.status(200).json({
               data
@@ -185,11 +186,19 @@ module.exports = {
           }
           else{
             res.status(500).json({
-              err
+              error
             });
           }
 
         });
+      }
+
+      else{
+        res.status(500).json({
+          err
+        });
+      }
+
     });
   }
 };

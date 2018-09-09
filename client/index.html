@@ -15,6 +15,9 @@
   <!-- swal -->
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+  <!-- date -->
+  <script src="http://cdn.date-fns.org/v1.0.0/date_fns.min.js"></script>
+
   <title>Fancy To Do</title>
 </head>
 
@@ -63,7 +66,7 @@
   </div>
 
   <div id="todo">
-    <h2 id="addTodo">Add Your To Do Here</h2>
+    <h2 id="addTodo">+ Add Your To Do Here</h2>
     <div class="todo-list">
 
     </div>
@@ -80,16 +83,33 @@
   <script src="./index.js"></script>
 
   <script>
-    $(document).ready(() => {
-      $.ajax({
-        url: "http://localhost:3000/findUser",
-        method: "POST",
-        data: {
-          email: localStorage.getItem("email"),
-          token: localStorage.getItem("token")
-        }
+    if (localStorage.getItem("token") !== null) {
+      $(document).ready(() => {
+        $.ajax({
+          url: "http://localhost:3000/findUser",
+          method: "POST",
+          data: {
+            email: localStorage.getItem("email"),
+            token: localStorage.getItem("token")
+          }
+        })
+          .done(response => {
+            console.log(response)
+            const lists = response.data.todolist;
+            $(".todo-list").html("");
+            for (let i = 0; i < lists.length; i++) {
+              const date = dateFns.format(lists[i].dueDate, 'DD MMMM YYYY');
+              $(".todo-list").append(
+                `<h3>${lists[i].name} || <strong>Due Date : ${date}</strong></h3>`
+              );
+            }
+          })
+          .fail(err => {
+            console.log(err);
+          })
       })
-    })
+    }
+
   </script>
 
 </body>
