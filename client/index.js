@@ -101,6 +101,11 @@ $(document).mouseup(function (e) {
   if (!container3.is(e.target) && container3.has(e.target).length === 0) {
     container3.hide();
   }
+
+  var container4 = $(".update-form");
+  if (!container4.is(e.target) && container4.has(e.target).length === 0) {
+    container4.hide();
+  }
 });
 
 //showing and adding todo
