@@ -3,6 +3,14 @@ const mongodb = require('mongodb');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const axios = require('axios');
+const nodeMailer = require('nodemailer');
+const transporter = nodeMailer.createTransport({
+  service: 'Gmail',
+  auth: {
+      user: 'qerjaworkspace@gmail.com',
+      pass: process.env.GMAIL_PASS
+  }
+});
 
 module.exports = {
   addUser : function(req,res){
@@ -12,9 +20,29 @@ module.exports = {
       password : req.body.password
     })
     .then(data=>{
-      res.status(201).json({
-        data
-      });
+      const mailOptions = {
+        from: '"Todolist"', // sender address
+        to: req.body.email, // list of receivers
+        subject: `Hello,`, // Subject line
+        text: 'Hello world?', // plain text body
+        html: `<h1 style="
+        border-bottom : 1px black solid;
+        ">Welcome To Fancy Todo</h1>
+          <h2>${req.body.name}</h2>
+          <a href"https://fancy-todo-list-5b99e.firebaseapp.com/">Click Here!</a>
+        `
+    };
+        transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          res.status(500).json({
+            error
+          });
+        } else {
+          res.status(201).json({
+            data
+          });
+        }
+        });
     })
     .catch(err=>{
       res.status(500).json({
@@ -82,7 +110,29 @@ module.exports = {
               email : response.data.email,
               fromFB : 1
             }, (err,instance)=>{
-              console.log(instance._id,"ini instance");
+              const mailOptions = {
+                from: '"Todolist"', // sender address
+                to: response.data.email, // list of receivers
+                subject: `Hello,`, // Subject line
+                text: 'Hello world?', // plain text body
+                html: `<h1 style="
+                border-bottom : 1px black solid;
+                ">Welcome To Fancy Todo</h1>
+                  <h2>${response.data.name}</h2>
+                  <a href="https://fancy-todo-list-5b99e.firebaseapp.com/">Click Here!</a>
+                `
+            };
+                transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  res.status(500).json({
+                    error
+                  });
+                } else {
+                  res.status(201).json({
+                    data
+                  });
+                }
+                });
               if(!err){
                 jwt.sign({
                   email : response.data.email,
