@@ -87,9 +87,9 @@
 
   <div class="update-form">
     <form method="POST" action="#" id="updateTodo">
-      <input type="text" name="todoName" placeholder="To Do" required class="inputForm" id="todoValue">
-      <input type="text" name="todoDesc" placeholder="To Do Description" required class="inputForm" id="todoDesc">
-      <input type="text" name="dueDate" placeholder="YEAR/MONTH/DATE" required class="inputForm" id="dueDate">
+      <input type="text" name="todoName" placeholder="To Do" required class="inputForm" id="todoUpdate">
+      <input type="text" name="todoDesc" placeholder="To Do Description" required class="inputForm" id="descUpdate">
+      <input type="text" name="dueDate" placeholder="YEAR/MONTH/DATE" required class="inputForm" id="dueUpdate">
       <input type="submit" value="Update To Do!" class="formBtn">
     </form>
   </div>
@@ -117,15 +117,16 @@
               if (lists[i].status === "Finished") {
                 $(".todo-list").append(
                   `<h3>
-                  ${lists[i].name} || <strong>Due Date : ${date}</strong>
-                      &emsp; &emsp; TASK FINISHED ✅ 🤘🏻
-                  </h3>`
+                      <strong>${lists[i].name}</strong> <br> Description : ${lists[i].description} <br> <br><strong>Due Date : ${date}</strong>
+                  <br> TASK FINISHED ✅ 🤘🏻
+                  </h3> <br>
+                  `
                 );
               } else {
                 $(".todo-list").append(
                   `<h3>
-                  ${lists[i].name} || <strong>Due Date : ${date}</strong>
-                      &emsp; &emsp; <a href="#" onclick="complete('${lists[i]._id}')">✅</a> <a onclick="erase('${lists[i]._id}')">❌</a> <a onclick="update('${lists[i]._id}')">✏️</a>
+                  <strong>${lists[i].name}</strong> <br> Description :  ${lists[i].description} <br> <br> <strong>Due Date : ${date}</strong>
+                      <br> <a href="#" onclick="complete('${lists[i]._id}')">✅</a> <a onclick="erase('${lists[i]._id}')">❌</a> <a onclick="update('${lists[i]._id}')">✏️</a>
                   </h3>`
                 );
               }
@@ -173,14 +174,30 @@
 
     function update(id) {
       $(".update-form").show();
-      // $.ajax({
-      //   url: `http://localhost:3000/todo/${id}`,
-      //   method: "PUT",
-      //   data: {
-      //     email: localStorage.getItem("email"),
-      //     token: localStorage.getItem("token")
-      //   }
-      // })
+      $("#updateTodo").submit((e) => {
+        e.preventDefault();
+        $.ajax({
+          url: `http://localhost:3000/todo/${id}`,
+          method: "PUT",
+          data: {
+            name: $("#todoUpdate").val(),
+            dueDate: $("#dueUpdate").val(),
+            description: $("#descUpdate").val(),
+            email: localStorage.getItem("email"),
+            token: localStorage.getItem("token")
+          }
+        })
+          .done(data => {
+            swal("Congrats!", "Task Has Been Updated!", "success");
+            setTimeout(() => {
+              location.reload();
+            }, 3000);
+          })
+          .fail(err => {
+            console.log(err);
+          });
+      });
+
     }
 
   </script>
