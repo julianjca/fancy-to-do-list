@@ -65,17 +65,42 @@
     </div>
     <div class="nav-bar">
       <ul>
-        <li><a href="http://localhost:8080/login.html">Log In</a> </li>
+        <li id="login">Log In</li>
         <li>
           <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
           </fb:login-button>
         </li>
-        <li><a href="http://localhost:8080/register.html">Sign Up</a> </li>
+        <li id="register">Sign Up</li>
       </ul>
     </div>
     <h2 id="logout">Log Out</h2>
 
   </div>
+
+  <h1 class="welcome">
+    Welcome to The Todo App
+  </h1>
+
+  <div class="login-box">
+    <h2 style="margin-bottom : 30px">Login</h2>
+    <form method="POST" action="#" id="post-login">
+      <input type="email" name="email" placeholder="Email" required class="inputForm" id="emailValueLogin">
+      <input type="password" name="password" placeholder="Password" required class="inputForm" id="passwordValueLogin">
+      <input type="submit" value="Login" class="formBtn">
+    </form>
+  </div>
+
+  <div class="register-box">
+    <h2 style="margin-bottom : 30px">Register</h2>
+    <form method="POST" action="#" id="post-register">
+      <input type="text" name="name" placeholder="Full Name" required class="inputForm" id="nameValue">
+      <input type="email" name="email" placeholder="Email" required class="inputForm" id="emailValue">
+      <input type="password" name="password" placeholder="Password" required class="inputForm" id="passwordValue">
+      <input type="submit" value="Register" class="formBtn">
+    </form>
+
+  </div>
+
 
 
   <div class="create-form">
@@ -84,20 +109,89 @@
 
   <script>
     $(document).ready(() => {
-      if (localStorage.getItem("email") !== null || localStorage.getItem("email") !== undefined) {
+      if (localStorage.getItem("token") !== null || localStorage.getItem("token") !== undefined) {
         $(".nav-bar").hide();
         $("#logout").show();
-      } if (localStorage.getItem("email") == null || localStorage.getItem("email") == undefined) {
+        $('.welcome').hide();
+
+      } if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined) {
         $(".nav-bar").show();
         $("#logout").hide();
+        $('.welcome').show();
+
       }
     })
 
     $("#logout").click(() => {
       localStorage.removeItem("email");
       localStorage.removeItem("token");
+      localStorage.removeItem("id");
+
       location.reload();
     })
+
+    $("#login").click(() => {
+      $(".login-box").show();
+    });
+    $("#register").click(() => {
+      $(".register-box").show();
+    });
+
+    //login post
+    $("#post-login").submit((e) => {
+      e.preventDefault();
+      $.ajax({
+        url: "http://localhost:3000/login",
+        method: "POST",
+        data: {
+          email: $("#emailValueLogin").val(),
+          password: $("#passwordValueLogin").val(),
+        }
+      })
+        .done(data => {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('email', data.email);
+          location.reload();
+        })
+        .fail(err => {
+          console.log(err);
+        })
+    })
+
+    //register post
+    $("#post-register").submit((e) => {
+      e.preventDefault();
+      $.ajax({
+        url: "http://localhost:3000/register",
+        method: "POST",
+        data: {
+          email: $("#emailValue").val(),
+          password: $("#passwordValue").val(),
+          name: $("#nameValue").val(),
+          country: $("#countryValue").val()
+        }
+      })
+        .done(data => {
+          location.reload();
+        })
+        .fail(err => {
+          console.log(err);
+        })
+    })
+
+
+    //Hide when touching outside the div
+    $(document).mouseup(function (e) {
+      var container = $(".login-box");
+      if (!container.is(e.target) && container.has(e.target).length === 0) {
+        container.hide();
+      }
+
+      var container2 = $(".register-box");
+      if (!container2.is(e.target) && container2.has(e.target).length === 0) {
+        container2.hide();
+      }
+    });
   </script>
 
 </body>

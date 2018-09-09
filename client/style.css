@@ -73,3 +73,50 @@ p {
   padding: 1% 0;
   cursor: pointer;
 }
+
+.welcome {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 60px;
+  text-align: center;
+  margin-top: 15%;
+  color: #ffff;
+  text-transform: uppercase;
+}
+
+.register-box,
+.login-box {
+  visibility: none;
+  display: none;
+}
+
+#login,
+#register {
+  cursor: pointer;
+}
+
+.login-box,
+.register-box {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  background-color: #244977b7;
+  color: #ffff;
+  position: absolute;
+  padding: 10%;
+  width: 400px;
+  top: 200px;
+  left: 400px;
+  border-radius: 30px;
+}
+
+input {
+  display: block;
+  border-radius: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 200px;
+  height: 30px;
+  margin-bottom: 10px;
+}
