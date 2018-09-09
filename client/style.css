@@ -86,7 +86,8 @@ p {
 
 .register-box,
 .login-box,
-.create-form {
+.create-form,
+.update-form {
   visibility: none;
   display: none;
 }
@@ -98,7 +99,8 @@ p {
 
 .login-box,
 .register-box,
-.create-form {
+.create-form,
+.update-form {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -159,4 +161,9 @@ input {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+.todo-list a {
+  cursor: pointer;
+  text-decoration: none;
 }

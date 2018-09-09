@@ -18,6 +18,10 @@
   <!-- date -->
   <script src="http://cdn.date-fns.org/v1.0.0/date_fns.min.js"></script>
 
+  <!-- hover -->
+  <link href="./hover-min.css" rel="stylesheet">
+
+
   <title>Fancy To Do</title>
 </head>
 
@@ -66,7 +70,7 @@
   </div>
 
   <div id="todo">
-    <h2 id="addTodo">+ Add Your To Do Here</h2>
+    <h2 id="addTodo" class="hvr-grow-shadow">+ Add Your To Do Here</h2>
     <div class="todo-list">
 
     </div>
@@ -75,8 +79,18 @@
   <div class="create-form">
     <form method="POST" action="#" id="post-todo">
       <input type="text" name="todoName" placeholder="To Do" required class="inputForm" id="todoValue">
+      <input type="text" name="todoDesc" placeholder="To Do Description" required class="inputForm" id="todoDesc">
       <input type="text" name="dueDate" placeholder="YEAR/MONTH/DATE" required class="inputForm" id="dueDate">
       <input type="submit" value="Submit To Do!" class="formBtn">
+    </form>
+  </div>
+
+  <div class="update-form">
+    <form method="POST" action="#" id="updateTodo">
+      <input type="text" name="todoName" placeholder="To Do" required class="inputForm" id="todoValue">
+      <input type="text" name="todoDesc" placeholder="To Do Description" required class="inputForm" id="todoDesc">
+      <input type="text" name="dueDate" placeholder="YEAR/MONTH/DATE" required class="inputForm" id="dueDate">
+      <input type="submit" value="Update To Do!" class="formBtn">
     </form>
   </div>
 
@@ -99,15 +113,74 @@
             $(".todo-list").html("");
             for (let i = 0; i < lists.length; i++) {
               const date = dateFns.format(lists[i].dueDate, 'DD MMMM YYYY');
-              $(".todo-list").append(
-                `<h3>${lists[i].name} || <strong>Due Date : ${date}</strong></h3>`
-              );
+              console.log(lists[i]._id);
+              if (lists[i].status === "Finished") {
+                $(".todo-list").append(
+                  `<h3>
+                  ${lists[i].name} || <strong>Due Date : ${date}</strong>
+                      &emsp; &emsp; TASK FINISHED ✅ 🤘🏻
+                  </h3>`
+                );
+              } else {
+                $(".todo-list").append(
+                  `<h3>
+                  ${lists[i].name} || <strong>Due Date : ${date}</strong>
+                      &emsp; &emsp; <a href="#" onclick="complete('${lists[i]._id}')">✅</a> <a onclick="erase('${lists[i]._id}')">❌</a> <a onclick="update('${lists[i]._id}')">✏️</a>
+                  </h3>`
+                );
+              }
             }
           })
           .fail(err => {
             console.log(err);
           })
       })
+    }
+
+    function complete(id) {
+      $.ajax({
+        url: `http://localhost:3000/todo/${id}`,
+        method: "PATCH",
+        data: {
+          email: localStorage.getItem("email"),
+          token: localStorage.getItem("token")
+        }
+      })
+        .done(response => {
+          location.reload();
+        })
+        .fail(err => {
+          console.log(err);
+        })
+    }
+
+    function erase(id) {
+      $.ajax({
+        url: `http://localhost:3000/todo/${id}`,
+        method: "DELETE",
+        data: {
+          email: localStorage.getItem("email"),
+          token: localStorage.getItem("token")
+        }
+      })
+        .done(response => {
+          location.reload();
+        })
+        .fail(err => {
+          console.log(err);
+        })
+    }
+
+    function update(id) {
+      $(".update-form").show();
+      // $.ajax({
+      //   url: `http://localhost:3000/todo/${id}`,
+      //   method: "PUT",
+      //   data: {
+      //     email: localStorage.getItem("email"),
+      //     token: localStorage.getItem("token")
+      //   }
+      // })
     }
 
   </script>

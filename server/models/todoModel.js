@@ -8,9 +8,12 @@ const todoSchema = new Schema({
     dueDate:{
         type: Date
     },
-    user : {
-      type : mongoose.Schema.Types.ObjectId,
-      ref : 'User'
+    description : {
+        type : String
+    },
+    status : {
+        type : String,
+        default : "Unfinished"
     }
 },{
     timestamps: true

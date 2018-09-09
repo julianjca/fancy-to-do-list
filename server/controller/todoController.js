@@ -8,7 +8,8 @@ module.exports = {
     console.log(req.body);
     Todo.create({
       name : req.body.name,
-      dueDate : req.body.dueDate
+      dueDate : req.body.dueDate,
+      description : req.body.description
     })
     .then(data=>{
       //Verifying Token
@@ -56,6 +57,21 @@ module.exports = {
   updateTask : function(req,res){
     const data = req.body;
     Todo.updateOne({_id: new mongodb.ObjectID(req.params.id)},data,(err)=>{
+      if(!err){
+        res.status(200).json({
+          msg : `Updated the document with the id a equal to ${req.params.id}`,
+        });
+      }
+      else{
+        res.status(500).json({
+          msg : "failed updating to database"
+        });
+      }
+    });
+  },
+
+  finishTask : function(req,res){
+    Todo.updateOne({_id: new mongodb.ObjectID(req.params.id)},{status : "Finished"},(err)=>{
       if(!err){
         res.status(200).json({
           msg : `Updated the document with the id a equal to ${req.params.id}`,
