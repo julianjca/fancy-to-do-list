@@ -1,17 +1,32 @@
 const Todo = require('../models/todoModel');
 const mongodb = require('mongodb');
 const jwt = require('jsonwebtoken');
+const User = require('../models/userModel');
 
 module.exports = {
   addTask : function(req,res){
+    console.log(req.body);
     Todo.create({
       name : req.body.name,
       dueDate : req.body.dueDate
     })
     .then(data=>{
-      res.status(201).json({
-        data
-      });
+      console.log(req.body.userId)
+      console.log(data);
+      User.updateOne({ email: req.body.email },
+        { $push: { todolist: new mongodb.ObjectId(data._id) } }
+        )
+        .then(data=>{
+          console.log(data);
+          res.status(201).json({
+            data
+          });
+        })
+        .catch(err=>{
+          res.status(500).json({
+            err
+          });
+        });
     })
     .catch(err=>{
       res.status(500).json({

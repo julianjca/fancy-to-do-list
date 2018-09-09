@@ -52,7 +52,10 @@ $("#post-login").submit((e) => {
     .done(data => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('email', data.email);
-      location.reload();
+      swal("Welcome!", "You have successfully logged in!", "success");
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
     })
     .fail(err => {
       console.log(err);
@@ -72,7 +75,10 @@ $("#post-register").submit((e) => {
     }
   })
     .done(data => {
-      location.reload();
+      swal("Welcome!", "You have been registered!", "success");
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
     })
     .fail(err => {
       console.log(err);
@@ -95,4 +101,32 @@ $(document).mouseup(function (e) {
   if (!container3.is(e.target) && container3.has(e.target).length === 0) {
     container3.hide();
   }
+});
+
+//showing and adding todo
+$("#addTodo").click(() => {
+  $(".create-form").fadeIn("slow");
+});
+
+$("#post-todo").submit((e) => {
+  e.preventDefault();
+
+  $.ajax({
+    url: "http://localhost:3000/todo",
+    method: "POST",
+    data: {
+      name: $("#todoValue").val(),
+      dueDate: $("#dueDate").val(),
+      email : localStorage.getItem("email")
+    }
+  })
+    .done(data => {
+      swal("Welcome!", "Task Has Been Added!", "success");
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
+    })
+    .fail(err => {
+      console.log(err);
+    });
 });

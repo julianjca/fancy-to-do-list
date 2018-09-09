@@ -27,11 +27,14 @@ function checkLoginState() {
       }
     })
       .done(response => {
-        console.log(response);
         localStorage.setItem('token', response.token);
         localStorage.setItem('email', response.email);
         localStorage.setItem('id', response.id);
-        location.reload();
+        swal("Welcome!", "You have Logged in through Facebook!", "success");
+        setTimeout(() => {
+          location.reload();
+        }, 3000);
+
       })
       .fail(err => {
         console.log(err);

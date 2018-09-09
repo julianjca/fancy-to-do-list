@@ -12,6 +12,9 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
 
+  <!-- swal -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
   <title>Fancy To Do</title>
 </head>
 
@@ -75,30 +78,6 @@
   </div>
 
   <script src="./index.js"></script>
-
-  <script>
-    $("#addTodo").click(() => {
-      $(".create-form").fadeIn("slow");
-    });
-
-    $("#post-todo").submit((e) => {
-      e.preventDefault();
-      $.ajax({
-        url: "http://localhost:3000/todo",
-        method: "POST",
-        data: {
-          name: $("#todoValue").val(),
-          dueDate: $("#dueDate").val(),
-        }
-      })
-        .done(data => {
-          location.reload();
-        })
-        .fail(err => {
-          console.log(err);
-        })
-    })
-  </script>
 
 </body>
 
