@@ -79,6 +79,19 @@
 
   <script src="./index.js"></script>
 
+  <script>
+    $(document).ready(() => {
+      $.ajax({
+        url: "http://localhost:3000/findUser",
+        method: "POST",
+        data: {
+          email: localStorage.getItem("email"),
+          token: localStorage.getItem("token")
+        }
+      })
+    })
+  </script>
+
 </body>
 
 </html>

@@ -169,5 +169,27 @@ module.exports = {
       console.log('error ey');
       res.send(err);
     });
+  },
+
+  findUser: (req, res) => {
+    jwt.verify(req.body.token,process.env.JWT_SECRET,(err,decoded)=>{
+      User.findOne({
+            email: decoded.email
+        })
+        .populate('todolist').
+        exec(function (err, data) {
+          if(!err){
+            res.status(200).json({
+              data
+            });
+          }
+          else{
+            res.status(500).json({
+              err
+            });
+          }
+
+        });
+    });
   }
 };

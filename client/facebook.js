@@ -38,6 +38,6 @@ function checkLoginState() {
       })
       .fail(err => {
         console.log(err);
-      })
+      });
   });
 }

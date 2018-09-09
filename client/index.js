@@ -117,7 +117,8 @@ $("#post-todo").submit((e) => {
     data: {
       name: $("#todoValue").val(),
       dueDate: $("#dueDate").val(),
-      email : localStorage.getItem("email")
+      email : localStorage.getItem("email"),
+      token : localStorage.getItem("token")
     }
   })
     .done(data => {

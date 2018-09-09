@@ -11,22 +11,24 @@ module.exports = {
       dueDate : req.body.dueDate
     })
     .then(data=>{
-      console.log(req.body.userId)
-      console.log(data);
-      User.updateOne({ email: req.body.email },
-        { $push: { todolist: new mongodb.ObjectId(data._id) } }
-        )
-        .then(data=>{
-          console.log(data);
-          res.status(201).json({
-            data
+      //Verifying Token
+      jwt.verify(req.body.token,process.env.JWT_SECRET,(err,decoded)=>{
+        User.updateOne({ email: decoded.email },
+          { $push: { todolist: new mongodb.ObjectId(data._id) } }
+          )
+          .then(data=>{
+            console.log(data);
+            res.status(201).json({
+              data
+            });
+          })
+          .catch(err=>{
+            res.status(500).json({
+              err
+            });
           });
-        })
-        .catch(err=>{
-          res.status(500).json({
-            err
-          });
-        });
+      });
+
     })
     .catch(err=>{
       res.status(500).json({
