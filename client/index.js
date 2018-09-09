@@ -145,7 +145,7 @@ if (localStorage.getItem("token") !== null) {
       }
     })
       .done(response => {
-        console.log(response)
+        console.log(response);
         const lists = response.data.todolist;
         $(".todo-list").html("");
         for (let i = 0; i < lists.length; i++) {
@@ -171,8 +171,8 @@ if (localStorage.getItem("token") !== null) {
       })
       .fail(err => {
         console.log(err);
-      })
-  })
+      });
+  });
 }
 
 function complete(id) {
@@ -189,7 +189,7 @@ function complete(id) {
     })
     .fail(err => {
       console.log(err);
-    })
+    });
 }
 
 function erase(id) {
@@ -206,7 +206,7 @@ function erase(id) {
     })
     .fail(err => {
       console.log(err);
-    })
+    });
 }
 
 function update(id) {
