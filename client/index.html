@@ -16,49 +16,7 @@
 </head>
 
 <body>
-  <script>
-    window.fbAsyncInit = function () {
-      FB.init({
-        appId: '565817517185345',
-        cookie: true,
-        xfbml: true,
-        version: 'v3.1'
-      });
-      FB.AppEvents.logPageView();
-    };
-
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) { return; }
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-
-    function checkLoginState() {
-      FB.getLoginStatus(function (response) {
-        $.ajax({
-          url: `http://localhost:3000/fb-login`,
-          method: "POST",
-          data: {
-            token: response.authResponse.accessToken
-          }
-        })
-          .done(response => {
-            console.log(response);
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('email', response.email);
-            localStorage.setItem('id', response.id);
-            location.reload();
-          })
-          .fail(err => {
-            console.log(err);
-          })
-      });
-    }
-  </script>
-
+  <script src="./facebook.js"></script>
   <div class="heading">
     <div>
       <h1>FANCY TODO</h1>
@@ -101,74 +59,36 @@
 
   </div>
 
+  <div id="todo">
+    <h2 id="addTodo">Add Your To Do Here</h2>
+    <div class="todo-list">
 
-
-  <div class="create-form">
-
+    </div>
   </div>
 
+  <div class="create-form">
+    <form method="POST" action="#" id="post-todo">
+      <input type="text" name="todoName" placeholder="To Do" required class="inputForm" id="todoValue">
+      <input type="text" name="dueDate" placeholder="YEAR/MONTH/DATE" required class="inputForm" id="dueDate">
+      <input type="submit" value="Submit To Do!" class="formBtn">
+    </form>
+  </div>
+
+  <script src="./index.js"></script>
+
   <script>
-    $(document).ready(() => {
-      if (localStorage.getItem("token") !== null || localStorage.getItem("token") !== undefined) {
-        $(".nav-bar").hide();
-        $("#logout").show();
-        $('.welcome').hide();
-
-      } if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined) {
-        $(".nav-bar").show();
-        $("#logout").hide();
-        $('.welcome').show();
-
-      }
-    })
-
-    $("#logout").click(() => {
-      localStorage.removeItem("email");
-      localStorage.removeItem("token");
-      localStorage.removeItem("id");
-
-      location.reload();
-    })
-
-    $("#login").click(() => {
-      $(".login-box").show();
-    });
-    $("#register").click(() => {
-      $(".register-box").show();
+    $("#addTodo").click(() => {
+      $(".create-form").fadeIn("slow");
     });
 
-    //login post
-    $("#post-login").submit((e) => {
+    $("#post-todo").submit((e) => {
       e.preventDefault();
       $.ajax({
-        url: "http://localhost:3000/login",
+        url: "http://localhost:3000/todo",
         method: "POST",
         data: {
-          email: $("#emailValueLogin").val(),
-          password: $("#passwordValueLogin").val(),
-        }
-      })
-        .done(data => {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('email', data.email);
-          location.reload();
-        })
-        .fail(err => {
-          console.log(err);
-        })
-    })
-
-    //register post
-    $("#post-register").submit((e) => {
-      e.preventDefault();
-      $.ajax({
-        url: "http://localhost:3000/register",
-        method: "POST",
-        data: {
-          email: $("#emailValue").val(),
-          password: $("#passwordValue").val(),
-          name: $("#nameValue").val(),
-          country: $("#countryValue").val()
+          name: $("#todoValue").val(),
+          dueDate: $("#dueDate").val(),
         }
       })
         .done(data => {
@@ -178,20 +98,6 @@
           console.log(err);
         })
     })
-
-
-    //Hide when touching outside the div
-    $(document).mouseup(function (e) {
-      var container = $(".login-box");
-      if (!container.is(e.target) && container.has(e.target).length === 0) {
-        container.hide();
-      }
-
-      var container2 = $(".register-box");
-      if (!container2.is(e.target) && container2.has(e.target).length === 0) {
-        container2.hide();
-      }
-    });
   </script>
 
 </body>

@@ -85,7 +85,8 @@ p {
 }
 
 .register-box,
-.login-box {
+.login-box,
+.create-form {
   visibility: none;
   display: none;
 }
@@ -96,7 +97,8 @@ p {
 }
 
 .login-box,
-.register-box {
+.register-box,
+.create-form {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -106,7 +108,7 @@ p {
   padding: 10%;
   width: 400px;
   top: 200px;
-  left: 400px;
+  left: 350px;
   border-radius: 30px;
 }
 
@@ -119,4 +121,28 @@ input {
   width: 200px;
   height: 30px;
   margin-bottom: 10px;
+}
+
+#todo {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-top: 4%;
+  color: #ffff;
+}
+
+#todo h2 {
+  background-color: #ffff;
+  color: #4283d0;
+  font-size: 25px;
+  padding: 1% 0;
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border-radius: 20px;
+}
+
+#addTodo {
+  cursor: pointer;
 }
