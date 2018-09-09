@@ -42,7 +42,7 @@ $("#addTodo").click(() => {
 $("#post-login").submit((e) => {
   e.preventDefault();
   $.ajax({
-    url: "http://localhost:3000/login",
+    url: "https://boiling-dawn-83846.herokuapp.com/login",
     method: "POST",
     data: {
       email: $("#emailValueLogin").val(),
@@ -66,7 +66,7 @@ $("#post-login").submit((e) => {
 $("#post-register").submit((e) => {
   e.preventDefault();
   $.ajax({
-    url: "http://localhost:3000/register",
+    url: "https://boiling-dawn-83846.herokuapp.com/register",
     method: "POST",
     data: {
       email: $("#emailValue").val(),
@@ -112,7 +112,7 @@ $("#post-todo").submit((e) => {
   e.preventDefault();
 
   $.ajax({
-    url: "http://localhost:3000/todo",
+    url: "https://boiling-dawn-83846.herokuapp.com/todo",
     method: "POST",
     data: {
       name: $("#todoValue").val(),
@@ -137,7 +137,7 @@ $("#post-todo").submit((e) => {
 if (localStorage.getItem("token") !== null) {
   $(document).ready(() => {
     $.ajax({
-      url: "http://localhost:3000/findUser",
+      url: "https://boiling-dawn-83846.herokuapp.com/findUser",
       method: "POST",
       data: {
         email: localStorage.getItem("email"),
@@ -149,7 +149,7 @@ if (localStorage.getItem("token") !== null) {
         const lists = response.data.todolist;
         $(".todo-list").html("");
         for (let i = 0; i < lists.length; i++) {
-          const date = dateFns.format(lists[i].dueDate, 'DD MMMM YYYY');
+          const date = formatDate(new Date(lists[i].dueDate));
           console.log(lists[i]._id);
           if (lists[i].status === "Finished") {
             $(".todo-list").append(
@@ -177,7 +177,7 @@ if (localStorage.getItem("token") !== null) {
 
 function complete(id) {
   $.ajax({
-    url: `http://localhost:3000/todo/${id}`,
+    url: `https://boiling-dawn-83846.herokuapp.com/todo/${id}`,
     method: "PATCH",
     data: {
       email: localStorage.getItem("email"),
@@ -194,7 +194,7 @@ function complete(id) {
 
 function erase(id) {
   $.ajax({
-    url: `http://localhost:3000/todo/${id}`,
+    url: `https://boiling-dawn-83846.herokuapp.com/todo/${id}`,
     method: "DELETE",
     data: {
       email: localStorage.getItem("email"),
@@ -214,7 +214,7 @@ function update(id) {
   $("#updateTodo").submit((e) => {
     e.preventDefault();
     $.ajax({
-      url: `http://localhost:3000/todo/${id}`,
+      url: `https://boiling-dawn-83846.herokuapp.com/todo/${id}`,
       method: "PUT",
       data: {
         name: $("#todoUpdate").val(),
@@ -235,4 +235,20 @@ function update(id) {
       });
   });
 
+}
+
+//Helper
+function formatDate(date) {
+  var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + ' ' + monthNames[monthIndex] + ' ' + year;
 }
