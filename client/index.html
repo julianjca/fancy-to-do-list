@@ -6,8 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,500,700,900" rel="stylesheet">
+  <!-- jquery -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+
   <title>Fancy To Do</title>
 </head>
 
@@ -42,8 +46,11 @@
           }
         })
           .done(response => {
+            console.log(response);
             localStorage.setItem('token', response.token);
             localStorage.setItem('email', response.email);
+            localStorage.setItem('id', response.id);
+            location.reload();
           })
           .fail(err => {
             console.log(err);
@@ -52,8 +59,47 @@
     }
   </script>
 
-  <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-  </fb:login-button>
+  <div class="heading">
+    <div>
+      <h1>FANCY TODO</h1>
+    </div>
+    <div class="nav-bar">
+      <ul>
+        <li><a href="http://localhost:8080/login.html">Log In</a> </li>
+        <li>
+          <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+          </fb:login-button>
+        </li>
+        <li><a href="http://localhost:8080/register.html">Sign Up</a> </li>
+      </ul>
+    </div>
+    <h2 id="logout">Log Out</h2>
+
+  </div>
+
+
+  <div class="create-form">
+
+  </div>
+
+  <script>
+    $(document).ready(() => {
+      if (localStorage.getItem("email") !== null || localStorage.getItem("email") !== undefined) {
+        $(".nav-bar").hide();
+        $("#logout").show();
+      } if (localStorage.getItem("email") == null || localStorage.getItem("email") == undefined) {
+        $(".nav-bar").show();
+        $("#logout").hide();
+      }
+    })
+
+    $("#logout").click(() => {
+      localStorage.removeItem("email");
+      localStorage.removeItem("token");
+      location.reload();
+    })
+  </script>
+
 </body>
 
 </html>

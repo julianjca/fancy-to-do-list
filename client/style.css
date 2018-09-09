@@ -1,6 +1,75 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
+html {
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: auto;
+  font-size: 16px;
+  font-family: "Open Sans";
+  height: 100%;
+  background-color: #4283d0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.heading {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  color: #ffff;
+  margin-top: 4%;
+}
+
+.nav-bar li {
+  list-style: none;
+  display: inline-block;
+  padding: 20px;
+}
+
+.heading h1 {
+  margin-left: 20%;
+  margin-top: 6%;
+}
+
+.nav-bar ul {
+  margin-left: 60%;
+}
+
+.heading a {
+  text-decoration: none;
+  color: #ffff;
+}
+
+#logout {
+  color: #4283d0;
+  font-size: 20px;
+  margin-left: 80%;
+  margin-right: 5%;
+  background-color: #ffff;
+  text-align: center;
+  border-radius: 20px;
+  margin-top: 2.5%;
+  padding: 1% 0;
+  cursor: pointer;
 }

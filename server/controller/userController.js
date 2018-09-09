@@ -82,10 +82,43 @@ module.exports = {
               email : response.data.email,
               fromFB : 1
             }, (err,instance)=>{
+              console.log(instance._id,"ini instance");
               if(!err){
-                res.status(200).json({
-                  msg : "success adding data",
-                  data : instance
+                jwt.sign({
+                  email : response.data.email,
+                  name : response.data.name,
+                  _id : instance._id
+                }, process.env.JWT_SECRET,( err,token )=>{
+                  if( err ){
+                    res.status( 500 ).json({
+                      msg : err.message
+                    });
+                  }
+                  else{
+                    User.findOne({ email: response.data.email }, function (err, data) {
+                      if(!err){
+                        jwt.sign({
+                          email : data.email,
+                          name : data.name
+                        }, process.env.JWT_SECRET,( err,token )=>{
+                          if( err ){
+                            res.status( 500 ).json({
+                              msg : err.message
+                            });
+                          }
+                          else{
+                            console.log(token);
+                            res.status( 200 ).json({
+                              mesg : 'login success',
+                              token : token,
+                              email : data.email,
+                              id : data._id
+                            });
+                          }
+                        });
+                      }
+                    });
+                  }
                 });
               }
               else{
@@ -102,7 +135,6 @@ module.exports = {
               if(!err){
                 jwt.sign({
                   email : data.email,
-                  role : data.role,
                   name : data.name
                 }, process.env.JWT_SECRET,( err,token )=>{
                   if( err ){
@@ -115,7 +147,8 @@ module.exports = {
                     res.status( 200 ).json({
                       mesg : 'login success',
                       token : token,
-                      email : data.email
+                      email : data.email,
+                      id : data._id
                     });
                   }
                 });
