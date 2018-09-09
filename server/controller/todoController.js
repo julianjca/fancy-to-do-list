@@ -18,5 +18,37 @@ module.exports = {
         err
       });
     });
+  },
+
+  deleteTask : function(req,res){
+    Todo.deleteOne({_id: new mongodb.ObjectID(req.params.id)},(err)=>{
+      if(!err){
+        console.log(`Removed the document with the id a equal to ${req.params.id}`);
+        res.status(200).json({
+          msg : `success deleting with id : ${req.params.id}`
+        });
+      }
+      else{
+        res.status(500).json({
+          msg : "failed deleting from database"
+        });
+      }
+    });
+  },
+
+  updateTask : function(req,res){
+    const data = req.body;
+    Todo.updateOne({_id: new mongodb.ObjectID(req.params.id)},data,(err)=>{
+      if(!err){
+        res.status(200).json({
+          msg : `Updated the document with the id a equal to ${req.params.id}`,
+        });
+      }
+      else{
+        res.status(500).json({
+          msg : "failed updating to database"
+        });
+      }
+    });
   }
 };
