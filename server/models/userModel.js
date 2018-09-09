@@ -16,7 +16,11 @@ const userSchema = new Schema({
     todolist : [{
       type : mongoose.Schema.Types.ObjectId,
       ref : 'Todo'
-    }]
+    }],
+    fromFB :{
+        type : Number,
+        default : 0
+    }
 },{
     timestamps: true
 });

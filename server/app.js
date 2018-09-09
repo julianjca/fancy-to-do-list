@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const routing = require('./routes');
+const todo = require('./routes/todoRoute');
 
 const port = 3000;
 require('dotenv').config();
@@ -12,6 +13,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/',routing);
+app.use('/todo',todo);
+
 
 //Connecting to Mongoose
 // const url = 'mongodb://admin:todolist1234@ds117830.mlab.com:17830/todo-list';

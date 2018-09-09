@@ -1,15 +1,10 @@
 const router = require('express').Router();
-const { addUser,displayUser } = require('../controller/userController');
-const { addTask,deleteTask,updateTask } = require('../controller/todoController');
+const { addUser,displayUser,fbLogin } = require('../controller/userController');
 
 
 //User
 router.post('/register',addUser);
 router.post('/login',displayUser);
-
-// To-do
-router.post('/todo',addTask);
-router.delete('/todo/:id',deleteTask);
-router.put('/todo/:id',updateTask);
+router.post('/fb-login',fbLogin);
 
 module.exports = router;

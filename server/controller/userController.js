@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const mongodb = require('mongodb');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const axios = require('axios');
 
 module.exports = {
   addUser : function(req,res){
@@ -61,4 +62,79 @@ module.exports = {
             });
         });
 },
+  fbLogin : function(req,res){
+     //*Axios Request
+     axios({
+      method:'get',
+      url:`https://graph.facebook.com/me?fields=id,name,email&&access_token=${req.body.token}`
+    })
+    .then((response)=> {
+      console.log(response.data);
+      //*Check if user already in database
+      User.findOne({
+        email : response.data.email
+      },(err,users)=>{
+        if(!err){
+          console.log(users);
+          if(users===null){
+            User.create({
+              name : response.data.name,
+              email : response.data.email,
+              fromFB : 1
+            }, (err,instance)=>{
+              if(!err){
+                res.status(200).json({
+                  msg : "success adding data",
+                  data : instance
+                });
+              }
+              else{
+                res.status(500).json({
+                  msg : "failed adding data"
+                });
+              }
+            });
+          }
+
+          else{
+            User.findOne({ email: response.data.email }, function (err, data) {
+              console.log(data);
+              if(!err){
+                jwt.sign({
+                  email : data.email,
+                  role : data.role,
+                  name : data.name
+                }, process.env.JWT_SECRET,( err,token )=>{
+                  if( err ){
+                    res.status( 500 ).json({
+                      msg : err.message
+                    });
+                  }
+                  else{
+                    console.log(token);
+                    res.status( 200 ).json({
+                      mesg : 'login success',
+                      token : token,
+                      email : data.email
+                    });
+                  }
+                });
+              }
+            });
+          }
+        }
+
+        else{
+          res.status(500).json({
+            msg : "error connecting to database"
+          });
+        }
+      });
+
+    })
+    .catch(err=>{
+      console.log('error ey');
+      res.send(err);
+    });
+  }
 };
