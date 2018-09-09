@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,500,700,900" rel="stylesheet">
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+
+  <!-- swal -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  <!-- date -->
+  <script src="http://cdn.date-fns.org/v1.0.0/date_fns.min.js"></script>
+
+  <!-- hover -->
+  <link href="./hover-min.css" rel="stylesheet">
+
+
+  <title>Fancy To Do</title>
+</head>
+
+<body>
+  <script src="./facebook.js"></script>
+  <div class="heading">
+    <div>
+      <h1>FANCY TODO</h1>
+    </div>
+    <div class="nav-bar">
+      <ul>
+        <li id="login">Log In</li>
+        <li>
+          <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+          </fb:login-button>
+        </li>
+        <li id="register">Sign Up</li>
+      </ul>
+    </div>
+    <h2 id="logout">Log Out</h2>
+
+  </div>
+
+  <h1 class="welcome">
+    Welcome to The Todo App
+  </h1>
+
+  <div class="login-box">
+    <h2 style="margin-bottom : 30px">Login</h2>
+    <form method="POST" action="#" id="post-login">
+      <input type="email" name="email" placeholder="Email" required class="inputForm" id="emailValueLogin">
+      <input type="password" name="password" placeholder="Password" required class="inputForm" id="passwordValueLogin">
+      <input type="submit" value="Login" class="formBtn">
+    </form>
+  </div>
+
+  <div class="register-box">
+    <h2 style="margin-bottom : 30px">Register</h2>
+    <form method="POST" action="#" id="post-register">
+      <input type="text" name="name" placeholder="Full Name" required class="inputForm" id="nameValue">
+      <input type="email" name="email" placeholder="Email" required class="inputForm" id="emailValue">
+      <input type="password" name="password" placeholder="Password" required class="inputForm" id="passwordValue">
+      <input type="submit" value="Register" class="formBtn">
+    </form>
+
+  </div>
+
+  <div id="todo">
+    <h2 id="addTodo" class="hvr-grow-shadow">+ Add Your To Do Here</h2>
+    <div class="todo-list">
+
+    </div>
+  </div>
+
+  <div class="create-form">
+    <form method="POST" action="#" id="post-todo">
+      <input type="text" name="todoName" placeholder="To Do" required class="inputForm" id="todoValue">
+      <input type="text" name="todoDesc" placeholder="To Do Description" required class="inputForm" id="todoDesc">
+      <input type="text" name="dueDate" placeholder="YEAR/MONTH/DATE" required class="inputForm" id="dueDate">
+      <input type="submit" value="Submit To Do!" class="formBtn">
+    </form>
+  </div>
+
+  <div class="update-form">
+    <form method="POST" action="#" id="updateTodo">
+      <input type="text" name="todoName" placeholder="To Do" required class="inputForm" id="todoUpdate">
+      <input type="text" name="todoDesc" placeholder="To Do Description" required class="inputForm" id="descUpdate">
+      <input type="text" name="dueDate" placeholder="YEAR/MONTH/DATE" required class="inputForm" id="dueUpdate">
+      <input type="submit" value="Update To Do!" class="formBtn">
+    </form>
+  </div>
+
+  <script src="./index.js"></script>
+
+</body>
+
+</html>
