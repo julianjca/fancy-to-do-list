@@ -11,10 +11,14 @@ module.exports = {
       password : req.body.password
     })
     .then(data=>{
-      res.send(data);
+      res.status(201).json({
+        data
+      });
     })
     .catch(err=>{
-      res.send(err);
+      res.status(500).json({
+        err
+      });
     });
   },
 
